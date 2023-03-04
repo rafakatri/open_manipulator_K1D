@@ -28,6 +28,8 @@
 #include <std_msgs/Float64.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Empty.h>
+#include <std_msgs/Int32.h>
+#include <std_msgs/Int32MultiArray.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <trajectory_msgs/JointTrajectoryPoint.h>
 
@@ -93,6 +95,10 @@ class OpenManipulatorController
   std::vector<ros::Publisher> open_manipulator_kinematics_pose_pub_;
   ros::Publisher open_manipulator_joint_states_pub_;
   std::vector<ros::Publisher> gazebo_goal_joint_position_pub_;
+  ros::Publisher goal_joint_pub_;
+  ros::Publisher goal_gripper_pub_;
+  std_msgs::Int32 gripper_msg;
+  std_msgs::Int32MultiArray joint_msg;
 
   void publishOpenManipulatorStates();
   void publishKinematicsPose();

@@ -141,6 +141,9 @@ void OpenManipulatorController::initPublisher()
   }
   open_manipulator_states_pub_ = node_handle_.advertise<open_manipulator_msgs::OpenManipulatorState>("states", 10);
 
+  goal_joint_pub_ = node_handle_.advertise<std_msgs::Int32MultiArray>("goal_joints",10);
+  goal_gripper_pub_ =  node_handle_.advertise<std_msgs::Int32>("goal_gripper",10);
+
   if (using_platform_ == true)
   {
     open_manipulator_joint_states_pub_ = node_handle_.advertise<sensor_msgs::JointState>("joint_states", 10);
@@ -515,6 +518,17 @@ bool OpenManipulatorController::goalDrawingTrajectoryCallback(open_manipulator_m
 void OpenManipulatorController::process(double time)
 {
   open_manipulator_.processOpenManipulator(time);
+  if (open_manipulator_.is_joint_active_) {
+    joint_msg.data = open_manipulator_.goal_joint_;
+    goal_joint_pub_.publish(&joint_msg);
+    open_manipulator_.is_joint_active_ = false;
+  }
+  
+  if (open_manipulator_.is_gripper_active_) {
+    gripper_msg.data = open_manipulator_.goal_gripper_;
+    goal_gripper_pub_.publish(&gripper_msg);
+    open_manipulator_.is_gripper_active_ = false;
+  }
 }
 
 /********************************************************************************
