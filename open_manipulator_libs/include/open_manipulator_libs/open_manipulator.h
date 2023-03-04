@@ -44,10 +44,16 @@ private:
   robotis_manipulator::JointActuator *actuator_;
   robotis_manipulator::ToolActuator *tool_;
   robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
+  void data_handler(JointWaypoint goal, bool is_joint);
 
 public:
   OpenManipulator();
   virtual ~OpenManipulator();
+
+  std::vector<int> goal_joint_;
+  int goal_gripper_;
+  bool is_joint_active_ = false;
+  bool is_gripper_active_ = false;
 
   void initOpenManipulator(bool using_actual_robot_state, STRING usb_port = "/dev/ttyUSB0", STRING baud_rate = "1000000", float control_loop_time = 0.010);
   void processOpenManipulator(double present_time);

@@ -199,6 +199,19 @@ void OpenManipulator::initOpenManipulator(bool using_actual_robot_state, STRING 
   addCustomTrajectory(CUSTOM_TRAJECTORY_HEART, custom_trajectory_[3]);
 }
 
+void OpenManipulator::data_handler(JointWaypoint goal_, bool is_joint){
+  if(is_joint) {
+    for(int i = 0; i < goal_.size(); i++){
+      goal_joint_[i] = goal_[i].position; 
+    }
+    is_joint_active_= true;
+    return;
+  }
+  goal_gripper_ = goal_[0].position;
+  is_gripper_active_ = true;
+  return;
+}
+
 void OpenManipulator::processOpenManipulator(double present_time)
 {
   // Planning (ik)
@@ -209,8 +222,8 @@ void OpenManipulator::processOpenManipulator(double present_time)
   receiveAllJointActuatorValue();
   receiveAllToolActuatorValue();
 
-  if(goal_joint_value.size() != 0) sendAllJointActuatorValue(goal_joint_value);
-  if(goal_tool_value.size() != 0) sendAllToolActuatorValue(goal_tool_value);
+  if(goal_joint_value.size() != 0) data_handler(goal_joint_value, true);
+  if(goal_tool_value.size() != 0) data_handler(goal_tool_value, false);
 
   // Perception (fk)
   solveForwardKinematics();
