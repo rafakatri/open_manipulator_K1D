@@ -118,7 +118,10 @@ private:
 public:
   JointDynamixelProfileControl(float control_loop_time = 0.010);
   virtual ~JointDynamixelProfileControl(){}
-
+  std::vector<double> min_pos;
+  std::vector<double> max_pos;
+  std::vector<double> min_rad;
+  std::vector<double> max_rad;
 
   /*****************************************************************************
   ** Joint Dynamixel Profile Control Functions
@@ -154,6 +157,11 @@ class GripperDynamixel : public robotis_manipulator::ToolActuator
  public:
   GripperDynamixel() {}
   virtual ~GripperDynamixel() {}
+
+  double min_pos_gripper;
+  double max_pos_gripper;
+  double min_rad_gripper;
+  double max_rad_gripper;
 
 
   /*****************************************************************************

@@ -401,6 +401,15 @@ void JointDynamixelProfileControl::setMode(std::vector<uint8_t> actuator_id, con
     if (result == false)
       return;
   }
+
+  for (int i = 0; i < actuator_id.size();i++) {
+    const ModelInfo *info = dynamixel_workbench_->getModelInfo(actuator_id[i]);
+    min_pos[i] = info-> value_of_min_radian_position;
+    min_rad[i] = info->min_radian;
+    max_pos[i] = info->value_of_max_radian_position;
+    max_rad[i] = info->max_radian;
+  }
+
   return;
 }
 
@@ -882,6 +891,12 @@ bool GripperDynamixel::setOperatingMode(STRING dynamixel_mode)
       log::error(log);
     }
   }
+
+  const ModelInfo *info = dynamixel_workbench_->getModelInfo(dynamixel_.id.at(0));
+  min_pos_gripper = info-> value_of_min_radian_position;
+  min_rad_gripper = info->min_radian;
+  max_pos_gripper = info->value_of_max_radian_position;
+  max_rad_gripper = info->max_radian;
 
   return true;
 }

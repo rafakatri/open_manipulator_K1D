@@ -41,8 +41,8 @@ class OpenManipulator : public robotis_manipulator::RobotisManipulator
   
 private:
   robotis_manipulator::Kinematics *kinematics_;
-  robotis_manipulator::JointActuator *actuator_;
-  robotis_manipulator::ToolActuator *tool_;
+  dynamixel::JointDynamixelProfileControl *actuator_;
+  dynamixel::GripperDynamixel *tool_;
   robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
   void data_handler(JointWaypoint goal, bool is_joint);
 
@@ -54,6 +54,7 @@ public:
   int goal_gripper_;
   bool is_joint_active_ = false;
   bool is_gripper_active_ = false;
+  DynamixelWorkbench *dxl = new DynamixelWorkbench;
 
   void initOpenManipulator(bool using_actual_robot_state, STRING usb_port = "/dev/ttyUSB0", STRING baud_rate = "1000000", float control_loop_time = 0.010);
   void processOpenManipulator(double present_time);

@@ -200,14 +200,18 @@ void OpenManipulator::initOpenManipulator(bool using_actual_robot_state, STRING 
 }
 
 void OpenManipulator::data_handler(JointWaypoint goal_, bool is_joint){
+  int value;
   if(is_joint) {
     for(int i = 0; i < goal_.size(); i++){
+      double profile = goal_.at(i).position + 3*(goal_.at(i).velocity * (0.010))/2;
+      value = dxl->convertRadian2Value(goal_[0].position, actuator_->max_pos[i], actuator_->min_pos[i], actuator_->max_rad[i], actuator_->min_rad[i]);
       goal_joint_[i] = goal_[i].position; 
     }
     is_joint_active_= true;
     return;
   }
-  goal_gripper_ = goal_[0].position;
+  value = dxl->convertRadian2Value(goal_[0].position, tool_->max_pos_gripper, tool_->min_pos_gripper, tool_->max_rad_gripper, tool_->min_rad_gripper);
+  goal_gripper_ = value;
   is_gripper_active_ = true;
   return;
 }
