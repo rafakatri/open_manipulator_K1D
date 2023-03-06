@@ -95,10 +95,10 @@ class OpenManipulatorController
   std::vector<ros::Publisher> open_manipulator_kinematics_pose_pub_;
   ros::Publisher open_manipulator_joint_states_pub_;
   std::vector<ros::Publisher> gazebo_goal_joint_position_pub_;
-  ros::Publisher goal_joint_pub_;
-  ros::Publisher goal_gripper_pub_;
-  std_msgs::Int32 gripper_msg;
   std_msgs::Int32MultiArray joint_msg;
+  ros::Publisher goal_joint_pub_;
+  std_msgs::Int32 gripper_msg;
+  ros::Publisher goal_gripper_pub_;
 
   void publishOpenManipulatorStates();
   void publishKinematicsPose();
